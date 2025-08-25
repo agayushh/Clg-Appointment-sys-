@@ -4,7 +4,7 @@ enum Roles {
   Student = "student",
   Professor = "professor",
 }
-interface Iuser {
+export interface Iuser {
   name: string;
   email: string;
   password: string;
@@ -43,6 +43,6 @@ const userSchema = new mongoose.Schema<Iuser>(
   { timestamps: true }
 );
 
-const User = mongoose.model<Iuser>("User", userSchema);
+export const User = mongoose.model<Iuser>("User", userSchema);
 
-export default User;
+
