@@ -1,13 +1,17 @@
-import express from "express";
+import express, { urlencoded } from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 const app = express();
 
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
+app.use(express.json);
+app.use(express.urlencoded);
 
-  
-app.get("/", (req, res) => {
-  console.log("hi there");
-});
+app.use(cookieParser());
 
-
-
-
-export {app}
+export { app };
