@@ -16,6 +16,10 @@ const availabiltySchema = new mongoose.Schema<Iavail>({
   },
   availability: [
     {
+      date: {
+        type: Date, 
+        require: true
+      },
       startTime: {
         type: Date,
         required: true,
