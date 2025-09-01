@@ -1,33 +1,37 @@
 import mongoose from "mongoose";
 import { Iuser } from "./user.model";
 
-export interface Iavail {
-  professor: Iuser;
-  startTime: Date;
-  endTime: Date;
+export interface Iavail extends mongoose.Document {
+  professor: mongoose.Schema.Types.ObjectId | Iuser;
+  availability: { startTime: Date; endTime: Date }[];
   isBooked: boolean;
   createdAt: Date;
 }
 
 const availabiltySchema = new mongoose.Schema<Iavail>({
   professor: {
-    type: String,
-    profId: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
-  startTime: {
-    type: Date,
-    required: true,
-  },
-  endTime: {
-    type: Date,
-    required: true,
-  },
-  isBooked: {
-    type: Boolean,
-    require: true,
-    default: false,
-  },
+  availability: [
+    {
+      startTime: {
+        type: Date,
+        required: true,
+      },
+      endTime: {
+        type: Date,
+        required: true,
+      },
+      isBooked: {
+        type: Boolean,
+        require: true,
+        default: false,
+      },
+    },
+  ],
+
   createdAt: {
     type: Date,
     default: Date.now(),
