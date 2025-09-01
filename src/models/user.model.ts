@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 enum Roles {
   Student = "student",
@@ -12,6 +13,7 @@ export interface Iuser extends mongoose.Document {
   role: Roles;
   profId?: string;
   validatePassword(password: string): Promise<boolean>;
+  generateAccessToken(): string;
 }
 
 const userSchema = new mongoose.Schema<Iuser>(
@@ -56,6 +58,18 @@ userSchema.methods.validatePassword = async function (
   password: string
 ): Promise<boolean> {
   return await bcrypt.compare(password, this.password);
+};
+
+userSchema.methods.generateAccessToken = function () {
+  jwt.sign(
+    {
+      id: this._id,
+      email: this.email,
+      role: this.role,
+    },
+    process.env.SECRET_KEY!,
+    { expiresIn: "1h" }
+  );
 };
 
 export const User = mongoose.model<Iuser>("User", userSchema);
