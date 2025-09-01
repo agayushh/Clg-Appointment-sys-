@@ -5,12 +5,13 @@ enum Roles {
   Student = "student",
   Professor = "professor",
 }
-export interface Iuser {
+export interface Iuser extends mongoose.Document {
   name: string;
   email: string;
   password: string;
   role: Roles;
   profId?: string;
+  validatePassword(password: string): Promise<boolean>;
 }
 
 const userSchema = new mongoose.Schema<Iuser>(
