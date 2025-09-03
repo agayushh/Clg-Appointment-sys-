@@ -42,4 +42,40 @@ const createAvailability = asyncHandler(async (req, res) => {
   });
 });
 
-export { createAvailability };
+const showAvailableSlots = asyncHandler(async (req, res) => {
+  const { email } = req.params;
+  const { date } = req.query;
+  if (!email || !date) {
+    return res
+      .status(400)
+      .json({ message: "email of professor and date required" });
+  }
+  const startOfDay = new Date(date as string);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(date as string);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  const allSlots = await Avaialbilty.find({
+    professor: email,
+    startTime: { $gt: startOfDay, $lt: endOfDay },
+  });
+
+  if (!allSlots || allSlots.length === 0) {
+    return res.status(400).json({ message: "No slots" });
+  }
+
+  res.status(200).json({
+    professor: email,
+    date,
+    availableSlot: allSlots.flatMap((slot) =>
+      slot.availability.map((a) => ({
+        startTime: a.startTime,
+        endTime: a.endTime,
+        isBooked: a.isBooked,
+      }))
+    ),
+  });
+});
+
+export { createAvailability, showAvailableSlots };
