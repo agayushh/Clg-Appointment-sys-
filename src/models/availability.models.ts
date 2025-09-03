@@ -3,8 +3,7 @@ import { Iuser } from "./user.model";
 
 export interface Iavail extends mongoose.Document {
   professor: mongoose.Schema.Types.ObjectId | Iuser;
-  availability: { startTime: Date; endTime: Date }[];
-  isBooked: boolean;
+  availability: { startTime: Date; endTime: Date; isBooked: boolean }[];
   createdAt: Date;
 }
 
