@@ -3,8 +3,8 @@ import { Iuser } from "./user.model";
 
 export interface Iavail extends mongoose.Document {
   professor: mongoose.Schema.Types.ObjectId | Iuser;
-  availability: { startTime: Date; endTime: Date; isBooked: boolean }[];
-  createdAt: Date;
+  appDate: String;
+  availability: { startTime: String; endTime: String; isBooked: boolean }[];
 }
 
 const availabiltySchema = new mongoose.Schema<Iavail>({
@@ -13,33 +13,28 @@ const availabiltySchema = new mongoose.Schema<Iavail>({
     ref: "User",
     required: true,
   },
+  appDate: {
+    type: String,
+    required: true,
+  },
   availability: [
     {
-      date: {
-        type: Date, 
-        require: true
-      },
       startTime: {
-        type: Date,
+        type: String,
         required: true,
       },
       endTime: {
-        type: Date,
+        type: String,
         required: true,
       },
       isBooked: {
         type: Boolean,
-        require: true,
+        required: true,
         default: false,
       },
     },
   ],
 
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-    required: true,
-  },
 });
 
 export const Avaialbilty = mongoose.model<Iavail>(
