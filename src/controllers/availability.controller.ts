@@ -103,5 +103,43 @@ const deleteSlot = asyncHandler(async (req, res) => {
     slot: slotToDelete,
   });
 });
+const updateSlot = asyncHandler(async (req, res) => {
+  const { profId } = req.params;
+  const {
+    appDate,
+    startTime,
+    endTime,
+    newendTime,
+    newstartTime,
+    newAppDate,
+    role,
+  } = req.body;
 
-export { createAvailability, showAvailableSlots, deleteSlot };
+  if (!profId || !appDate || !startTime)
+    return res.status(400).json({ message: "All fields are required" });
+  if (!role || role.trim().toLowerCase() !== "professor") {
+    return res
+      .status(400)
+      .json({ message: "only professor can update the slots " });
+  }
+
+  const findSlot = await Avaialbilty.findOneAndUpdate(
+    {
+      professor: profId,
+      appDate,
+      "availability.startTime": startTime,
+    },
+    {
+      $set: {
+        "availability.$.startTime": newstartTime || startTime,
+        "availability.$.endTime": newendTime || null,
+        ...(newAppDate && { appDate: newAppDate }),
+      },
+    },
+    { new: true, runValidators: true }
+  );
+  if (!findSlot) return res.status(400).json({ message: "No such slot exist" });
+
+  res.status(200).json({ message: "Slot updated successfully" });
+});
+export { createAvailability, showAvailableSlots, deleteSlot, updateSlot };
