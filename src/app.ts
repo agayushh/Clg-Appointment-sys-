@@ -1,17 +1,27 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-const app = express();
+import multer from "multer"
 
+const app = express();
+const upload = multer();
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true,
   })
 );
-app.use(express.json);
-app.use(express.urlencoded);
-
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
+app.use(upload.none())
+
+import { UserRouter } from "./routes/user.route";
+import { AppointmentRouter } from "./routes/appointment.route";
+import { AvailabilityRouter } from "./routes/availability.route";
+
+app.use("/api/v1/users", UserRouter);
+app.use("/api/v1/users/avail/:profId", AvailabilityRouter);
+app.use("/api/v1/users/appoint/:profId", AppointmentRouter);
 
 export { app };

@@ -1,20 +1,18 @@
 import express from "express";
+import {
+  createAvailability,
+  deleteSlot,
+  showAvailableSlots,
+  updateSlot,
+} from "../controllers/availability.controller";
 const AvailabilityRouter = express.Router();
 
-AvailabilityRouter.get("/", (req, res) => {
-  res.send("Get all availabilities");
-});
+AvailabilityRouter.get("/", showAvailableSlots);
 
-AvailabilityRouter.post("/create", (req, res) => {
-  res.send("Create an availability");
-});
+AvailabilityRouter.post("/create", createAvailability);
 
-AvailabilityRouter.put("/update/:id", (req, res) => {
-  res.send(`Update availability with ID ${req.params.id}`);
-});
+AvailabilityRouter.put("/update/:id", updateSlot);
 
-AvailabilityRouter.delete("/delete/:id", (req, res) => {
-  res.send(`Delete availability with ID ${req.params.id}`);
-});
+AvailabilityRouter.delete("/delete/:id", deleteSlot);
 
 export { AvailabilityRouter };

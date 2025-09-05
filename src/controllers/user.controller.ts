@@ -13,8 +13,8 @@ const generateAccessToken = async (userId: mongoose.Types.ObjectId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password, role } = req.body;
-  if ([username, email, password, role].some((field) => field?.trim() === "")) {
+  const { name, email, password, role } = req.body;
+  if ([name, email, password, role].some((field) => field?.trim() === "")) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   // Create new user
   const newUser = new User({
-    username,
+    name,
     email,
     password,
     role,
