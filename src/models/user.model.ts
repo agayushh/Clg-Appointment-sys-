@@ -60,8 +60,8 @@ userSchema.methods.validatePassword = async function (
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAccessToken = function () {
-  jwt.sign(
+userSchema.methods.generateAccessToken = function ():string {
+  return jwt.sign(
     {
       id: this._id,
       email: this.email,

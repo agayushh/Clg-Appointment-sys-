@@ -7,7 +7,7 @@ import {
 } from "../controllers/availability.controller";
 const AvailabilityRouter = express.Router();
 
-AvailabilityRouter.get("/", showAvailableSlots);
+AvailabilityRouter.get("/:profId", showAvailableSlots);
 
 AvailabilityRouter.post("/create", createAvailability);
 

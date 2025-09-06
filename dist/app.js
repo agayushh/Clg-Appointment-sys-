@@ -23,5 +23,8 @@ const user_route_1 = require("./routes/user.route");
 const appointment_route_1 = require("./routes/appointment.route");
 const availability_route_1 = require("./routes/availability.route");
 app.use("/api/v1/users", user_route_1.UserRouter);
-app.use("/api/v1/users/avail/:profId", availability_route_1.AvailabilityRouter);
+app.use("/api/v1/users/avail", (req, res, next) => {
+    console.log('Availability route hit:', req.method, req.path);
+    next();
+}, availability_route_1.AvailabilityRouter);
 app.use("/api/v1/users/appoint/:profId", appointment_route_1.AppointmentRouter);

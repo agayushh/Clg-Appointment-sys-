@@ -1,5 +1,5 @@
 import { Appointment } from "../models/appointment.model";
-import { Avaialbilty } from "../models/availability.models";
+import { Avaialabilty } from "../models/availability.models";
 import { asyncHandler } from "../utils/asyncHandler";
 
 const allAppointments = asyncHandler(async (req, res) => {
@@ -52,7 +52,7 @@ const scheduleAppointment = asyncHandler(async (req, res) => {
   });
   await newSlot.save();
 
-  await Avaialbilty.findOneAndUpdate(
+  await Avaialabilty.findOneAndUpdate(
     {
       professor: profId,
       appDate,
@@ -91,7 +91,7 @@ const cancelAppointment = asyncHandler(async (req, res) => {
   if (!slotToCancel) {
     return res.status(400).json({ message: "slot not found" });
   }
-  await Avaialbilty.findOneAndUpdate(
+  await Avaialabilty.findOneAndUpdate(
     {
       professor: profId,
       appDate,

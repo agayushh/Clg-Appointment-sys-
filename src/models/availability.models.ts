@@ -37,7 +37,7 @@ const availabiltySchema = new mongoose.Schema<Iavail>({
 
 });
 
-export const Avaialbilty = mongoose.model<Iavail>(
-  "Avaialbilty",
+export const Avaialabilty = mongoose.model<Iavail>(
+  "Avaialabilty",
   availabiltySchema
 );
